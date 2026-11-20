@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>iDrive 6 Layout Preview</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>iDrive 6 Layout Preview</h1>
+      <label>XML <input type="file" id="fx" accept=".xml" /></label>
+      <label>Images ZIP <input type="file" id="fz" accept=".zip" /></label>
+      <button id="unload" title="Remove the loaded XML and images ZIP, back to the built-in sample">Unload</button>
+      <label><input type="checkbox" id="outlines" /> Show outlines</label>
+      <label>Zoom <input type="range" id="zoom" min="0.15" max="1" step="0.05" value="0.4" /></label>
+    </header>
+    <main>
+      <aside>
+        <label>Panels <input id="sizes" style="flex: 1" value="800x480 960x480 1280x480 1440x540 1920x720" /></label>
+        <div id="ed">
+          <pre id="hl" aria-hidden="true"></pre>
+          <textarea
+            id="xml"
+            spellcheck="false"
+            placeholder="Load or paste a plugin XML (e.g. ShiftDeck.xml)"
+          ></textarea>
+        </div>
+        <pre id="warn"></pre>
+      </aside>
+      <div>
+        <label style="display: block; margin-bottom: 8px"
+          >State
+          <select id="state"></select
+        ></label>
+        <details id="cat">
+          <summary id="catsum">Image catalog (load an images ZIP)</summary>
+          <div class="bar">
+            <input id="catq" placeholder="filter by id" size="12" /><label
+              ><input type="checkbox" id="usedonly" /> used in this state only</label
+            >
+          </div>
+          <div id="grid"></div>
+        </details>
+        <section id="panels" style="margin-top: 12px"></section>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

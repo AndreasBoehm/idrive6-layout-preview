@@ -1,0 +1,374 @@
+:root {
+  --bg: #f4f5f7;
+  --fg: #1b1d21;
+  --mut: #69707d;
+  --card: #fff;
+  --line: #d5d9e0;
+  --acc: #0b63ce;
+  --warn: #b45309;
+  --tag: #0b63ce;
+  --att: #9a3412;
+  --val: #047857;
+  --cmt: #8a91a0;
+  --pi: #7c3aed;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --fg: #e6e8ec;
+    --mut: #98a0ae;
+    --card: #1d2026;
+    --line: #333844;
+    --acc: #6aa8ff;
+    --warn: #f0b35a;
+    --tag: #7cb7ff;
+    --att: #f0a35e;
+    --val: #7fd4a0;
+    --cmt: #7c8494;
+    --pi: #c4a1ff;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font:
+    14px/1.4 system-ui,
+    sans-serif;
+}
+header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  background: var(--card);
+}
+h1 {
+  font-size: 16px;
+  margin: 0 8px 0 0;
+}
+label {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--mut);
+}
+input[type="number"] {
+  width: 70px;
+}
+select,
+input,
+textarea,
+button {
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 6px;
+}
+main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  padding: 16px;
+}
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+  #ed {
+    width: 100% !important;
+    resize: vertical !important;
+  }
+}
+aside {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#ed {
+  position: relative;
+  width: 380px;
+  min-width: 260px;
+  max-width: 70vw;
+  height: 55vh;
+  min-height: 120px;
+  resize: both;
+  overflow: hidden;
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+}
+#ed pre,
+#ed textarea {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 8px;
+  border: 0;
+  font:
+    12px/1.4 ui-monospace,
+    monospace;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 2;
+  background: transparent;
+  border-radius: 0;
+}
+#ed pre {
+  pointer-events: none;
+  color: var(--fg);
+}
+#ed textarea {
+  color: transparent;
+  caret-color: var(--fg);
+  resize: none;
+  width: 100%;
+  height: 100%;
+  -webkit-text-fill-color: transparent;
+}
+#ed textarea::selection {
+  background: #6aa8ff55;
+  -webkit-text-fill-color: transparent;
+}
+.t {
+  color: var(--tag);
+}
+.a {
+  color: var(--att);
+}
+.v {
+  color: var(--val);
+}
+.m {
+  color: var(--cmt);
+}
+.p {
+  color: var(--pi);
+}
+#cat {
+  margin-top: 4px;
+}
+#cat summary {
+  cursor: pointer;
+  color: var(--mut);
+}
+#cat .bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0;
+}
+#grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 6px;
+  max-height: 60vh;
+  overflow: auto;
+}
+.th {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  padding: 4px;
+  font-size: 11px;
+  color: var(--mut);
+  text-align: center;
+}
+.th.used {
+  border-color: var(--acc);
+  color: var(--fg);
+}
+.th i {
+  display: flex;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  background: #000 repeating-conic-gradient(#222 0 25%, #000 0 50%) 0 0/12px 12px;
+  margin-bottom: 3px;
+}
+.th img {
+  max-width: 100%;
+  max-height: 64px;
+  image-rendering: auto;
+}
+#warn {
+  color: var(--warn);
+  font-size: 12px;
+  white-space: pre-wrap;
+  margin: 0;
+}
+#panels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+.pw h2 {
+  font-size: 12px;
+  margin: 0 0 4px;
+  color: var(--mut);
+  font-weight: 600;
+}
+.pw .box {
+  position: relative;
+  box-sizing: content-box; /* the 1px border must not shrink the area the scaled screen is clipped to */
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  background: #000;
+  overflow: hidden;
+}
+.area {
+  position: absolute;
+} /* content area */
+.c {
+  position: absolute;
+  overflow: hidden;
+  font: 14px sans-serif;
+  color: #fff;
+}
+.c.image {
+  background-repeat: no-repeat;
+}
+.c.image img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  max-width: none;
+}
+.hmi .c.label.rt {
+  color: #8d97a4;
+  font-style: italic;
+}
+.c.image.missing {
+  background: #335;
+  outline: 1px solid #66a;
+}
+.c.label {
+  white-space: nowrap;
+}
+.hmi .screen {
+  background: #050608;
+  font-family: "Helvetica Neue", "Arial Narrow", Arial, sans-serif;
+}
+.hmi .c.native,
+.hmi .c.button {
+  background: none;
+  border: 0;
+  color: #fff;
+  padding: 0;
+  outline: 0;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.hmi .c.native.first,
+.hmi .c.button.first {
+  background: linear-gradient(90deg, #cc3000 0%, #b12d00 17%, #892402 45%, #491604 100%);
+  border-left: 3px solid #f2931e;
+  box-sizing: border-box;
+}
+.hmi .c.label {
+  color: #f3f5f8;
+  outline: 0;
+}
+.hmi .c.native.title {
+  background: none;
+  border-left: 0;
+  color: #c9d0d9;
+}
+.hmi .c.native.title.rt {
+  font-style: italic;
+  color: #8d97a4;
+}
+/* red content box when any component overflows it (also in HMI style) */
+.area.over,
+.hmi .area.over,
+.outlines .area.over {
+  outline: 2px dashed #f44;
+  outline-offset: -2px;
+}
+.optmenu {
+  z-index: 3;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(8, 10, 13, 0.97);
+  border-right: 1px solid #3b414a;
+  box-shadow: 4px 0 16px #000a;
+}
+.optmenu .c {
+  left: 0 !important;
+  right: 0;
+  width: auto !important;
+}
+.c.group {
+  border: 2px dashed #e8a;
+  color: #e8a;
+  background: #e8a2;
+  font-size: 12px;
+}
+/* !important: the HMI-style rules and widgets' inline "outline: 0" would otherwise hide it */
+/* "Show outlines": box around every component and the content area. !important beats the HMI rules and widgets' inline outline */
+.outlines .c {
+  outline: 1px solid #5a9bff !important;
+}
+/* negative offset: the content area touches the panel's right/bottom edge (clipped) and the chrome (z-index 5) covers its left/top */
+.outlines .area {
+  outline: 1px dashed #3a7;
+  outline-offset: -1px;
+}
+.c.out {
+  outline: 2px solid #f44 !important;
+}
+.pagebg {
+  position: absolute;
+  background: linear-gradient(90deg, #232426 0, #232426 15%, #0b0b0c 32%, #000 46%);
+}
+.chrome {
+  position: absolute;
+  z-index: 5;
+  color: #788f95;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: Bahnschrift, "DIN Alternate", "Helvetica Neue", Arial, sans-serif;
+}
+.chrome.strip {
+  background: linear-gradient(#000 0, #000 40%, #222a2c 55%, #455357 65%, #131616 70%, #232629 83%, #30363b 98%);
+  border-right: 1px solid #8c8c90;
+  color: #f0f0f0;
+  text-align: center;
+}
+.chrome.tband {
+  background: linear-gradient(90deg, #2b2c2e 0, #2b2c2e 30%, #101010 100%);
+}
+.chrome.tline {
+  background: linear-gradient(90deg, #4a4a4c00 0, #525254 14%, #9a9a9a 37%, #909090 70%, #696969 99%, #69696900 100%);
+}
+.chrome.tline2 {
+  background: #434343;
+}
+.chrome.clock {
+  color: #aab8bd;
+  text-align: right;
+}
+.chrome.arrow {
+  background-repeat: no-repeat;
+  background-position: center;
+}
