@@ -2,6 +2,10 @@
 
 A single-page tool that draws the screens (`hmiState`s) of an iDrive 6 plugin app straight from its XML manifest, at several panel sizes at once. You can see how a layout lands on a 800×480, 1280×480 or 1920×720 screen without a car or an emulator.
 
+**Live:** <https://andreas.boehm.cx/idrive6-layout-preview/>
+
+![The built-in sample drawn at 1280×480 and 800×480. On the smaller panel, components that overflow the content area are outlined in red.](screenshots/preview.png)
+
 It is an approximation built from measurements, not the real HMI renderer. See [Limits](#limits).
 
 Not affiliated with or endorsed by BMW. No BMW code, fonts or graphics are included.
@@ -20,6 +24,8 @@ No server, no build, no install.
    - **Zoom**: preview scale.
 
    Components that overflow the content area always get a red outline, and the content box turns red, with or without outlines.
+
+   ![Show outlines: a box around every component and the content area](screenshots/outlines.png)
 
 6. Read the warning box under the editor. It lists things the preview cannot draw or that the HMI would reject.
 7. **Image catalog** (collapsible) shows every image in the ZIP with its id and size. You can filter it by id or to the images the current state uses.
