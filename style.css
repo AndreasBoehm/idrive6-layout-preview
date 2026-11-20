@@ -48,6 +48,10 @@ header {
   align-items: center;
   background: var(--card);
 }
+header a {
+  margin-left: auto; /* right-aligned, like the usual GitHub Pages link */
+  color: var(--acc);
+}
 h1 {
   font-size: 16px;
   margin: 0 8px 0 0;
