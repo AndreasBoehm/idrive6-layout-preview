@@ -296,10 +296,6 @@ aside {
   border-left: 0;
   color: #c9d0d9;
 }
-.hmi .c.native.title.rt {
-  font-style: italic;
-  color: #8d97a4;
-}
 /* red content box when any component overflows it (also in HMI style) */
 .area.over,
 .hmi .area.over,
@@ -375,4 +371,41 @@ aside {
 .chrome.arrow {
   background-repeat: no-repeat;
   background-position: center;
+}
+
+/* native list without geometry: scrolls vertically when the rows do not fit */
+.natlist {
+  position: absolute;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* separator under each native row */
+.hmi .natlist .c.native {
+  border-bottom: 1px solid #ffffff26;
+  box-sizing: border-box;
+}
+/* radiobutton: ring at the left; the selected option (runtime bool model, default = first) has a dot */
+.hmi .c.native.radio::before {
+  content: "";
+  position: absolute;
+  left: 0.5em;
+  top: 50%;
+  width: 0.75em;
+  height: 0.75em;
+  margin-top: -0.375em;
+  box-sizing: border-box;
+  border: 0.07em solid currentColor;
+  border-radius: 50%;
+}
+.hmi .c.native.radio.sel::after {
+  content: "";
+  position: absolute;
+  left: calc(0.5em + 0.2em);
+  top: 50%;
+  width: 0.35em;
+  height: 0.35em;
+  margin-top: -0.175em;
+  background: currentColor;
+  border-radius: 50%;
 }

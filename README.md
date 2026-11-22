@@ -104,7 +104,7 @@ Anything you place outside the content area is covered by the chrome. The previe
 - **Labels** have no font property. They use the regular label font (40 units). Text is left-aligned, vertically centered, and hard-clipped at the label's width with no ellipsis. The `CUTTYPE` (37) and `ALIGNMENT` (17) properties had no visible effect in the measurements.
 - **Widgets** (`widgetName="LT_…"`) pick a built-in template by name, which decides font size, color and alignment. The sizes the preview knows are in the `TPL` table in `app.js`. A `FontSize` binding to a text model gave one fixed size (36 units) regardless of the value.
 - **Buttons** are drawn as boxes. The first one gets the "focused" highlight.
-- **Components without x/y/width/height** are placed by the HMI itself. The preview shows them as stacked placeholders, and the real positions will differ.
+- **Components without x/y/width/height** are placed by the HMI itself. The preview shows them as a scrollable list of placeholder rows (78u pitch, as the native lists), and the real positions will differ. Labels with only a runtime text model are not drawn.
 - **Option-menu entries** are native and not part of the canvas. They are drawn as a list over the left side when you pick the `+ options menu` state.
 - **layoutGroups** are drawn as dashed boxes. The preview warns about an invalid slot name, unsupported `element*` attributes, alignment values the HMI ignores, and a zero Matrix cell size.
 

@@ -130,7 +130,7 @@ async function catalog() {
     const st = doc.querySelector(`hmiState[id="${$("state").value.split(":")[0]}"]`);
     const m = {};
     doc.querySelectorAll("imageIdModel").forEach((e) => (m[e.getAttribute("id")] = e.getAttribute("imageId")));
-    st && st.querySelectorAll("image").forEach((i) => used.add(m[i.getAttribute("model")]));
+    st && st.querySelectorAll("image, button[imageModel]").forEach((i) => used.add(m[i.getAttribute("imageModel") || i.getAttribute("model")]));
   }
   const ids = Object.keys(images)
     .sort((a, b) => a - b)
@@ -389,12 +389,15 @@ function render() {
         w = num(p, PROP.w),
         h = num(p, PROP.h);
       if ([x, y, w, h].includes(null)) {
+        // a label with only a runtime text model is not drawn: the real list shows no row for it
+        if (tag === "label" && !c.getAttribute("text")) continue;
         nat.push({
-          btn: tag === "button",
+          btn: tag === "button" || tag === "radiobutton",
           lbl: tag === "label",
-          rt: !c.getAttribute("text") && !!c.getAttribute("model"),
+          radio: tag === "radiobutton",
           t:
             c.getAttribute("text") ||
+            (c.getAttribute("textModel") ? `(runtime text, model ${c.getAttribute("textModel")})` : "") ||
             (c.getAttribute("model") ? `(runtime text, model ${c.getAttribute("model")})` : `${tag} ${id}`),
         });
         continue;
@@ -402,9 +405,11 @@ function render() {
       if (tag === "widget") {
         const e = put("label rt", x, y, w, h, "", null);
         styleWidget(e, c);
-      } else if (tag === "image") {
-        const u = images[imgOf[c.getAttribute("model")]];
-        put("image" + (u ? "" : " missing"), x, y, w, h, u ? "" : `#${imgOf[c.getAttribute("model")] ?? "?"}`, u);
+      } else if (tag === "image" || (tag === "button" && c.hasAttribute("imageModel"))) {
+        // image buttons draw their picture (imageModel) instead of text
+        const iid = imgOf[c.getAttribute(tag === "image" ? "model" : "imageModel")],
+          u = images[iid];
+        put("image" + (u ? "" : " missing"), x, y, w, h, u ? "" : `#${iid ?? "?"}`, u);
       } else if (tag === "label" && !c.getAttribute("text")) {
         // runtime text: small muted placeholder sized to its box
         const e = put("label rt", x, y, w, h, `model ${c.getAttribute("model") || "?"}`, null);
@@ -425,23 +430,36 @@ function render() {
     if (nat.length) {
       // no geometry: the HMI lays these out natively; show stacked placeholders
       warns.add(
-        `${nat.length} component(s) without geometry are placed by the HMI (shown as stacked placeholders, real positions differ)`,
+        `${nat.length} component(s) without geometry are placed by the HMI (shown as a placeholder list, real positions differ)`,
       );
       const fi = nat.findIndex((n) => n.btn);
+      // scrollable list: rows keep the native 78u pitch, the HMI list scrolls when they do not fit
+      const lst = document.createElement("div");
+      lst.className = "natlist";
+      Object.assign(lst.style, {
+        left: a.x + "px",
+        top: a.y + "px",
+        width: Math.min(693 * a.s, a.w) + "px",
+        height: a.h + "px",
+      });
       nat.forEach((n, i) => {
         const e = document.createElement("div");
-        e.className = "c native" + (i === fi ? " first" : "") + (n.lbl ? " title" + (n.rt ? " rt" : "") : "");
+        e.className = "c native" + (i === fi ? " first" : "") + (n.lbl ? " title" : "") + (n.radio ? " radio" + (i === fi ? " sel" : "") : "");
         Object.assign(e.style, {
-          left: a.x + "px",
-          top: a.y + (17 + i * 78) * a.s + "px",
-          width: Math.min(693 * a.s, a.w) + "px",
+          left: 0,
+          top: (17 + i * 78) * a.s + "px",
+          width: "100%",
           height: 54 * a.s + "px",
           fontSize: 40 * a.s + "px",
-          paddingLeft: 20 * a.s + "px",
+          paddingLeft: (n.radio ? 76 : 20) * a.s + "px",
         });
         e.textContent = n.t;
-        scr.append(e);
+        lst.append(e);
       });
+      const end = document.createElement("div"); // spacer: the last row's bottom margin counts towards the scroll height
+      Object.assign(end.style, { position: "absolute", top: (17 + nat.length * 78) * a.s + "px", height: "1px", width: "1px" });
+      lst.append(end);
+      scr.append(lst);
     }
     if ($("state").value.endsWith(":opt")) {
       // option menu: native list of optionComponents, slides in over the left side
